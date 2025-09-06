@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Apology for Anushka</title>
+    <!-- Tailwind CSS for a responsive and modern look -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Import the Inter font for a clean, friendly look */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffb6c1; /* A gentle, light pink */
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff94b1' fill-opacity='0.4'%3E%3Cpolygon points='0 0 20 0 20 20' /%3E%3C/g%3E%3C/svg%3E");
+            animation: fadeIn 2s ease-in-out;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Fade-in animation for a smooth entry */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Retro-style card with a distinctive shadow effect */
+        .retro-card {
+            background-color: #ffe6f0;
+            box-shadow: 10px 10px 0px 0px #ff94b1;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hover effect to make the card "pop" */
+        .retro-card:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 15px 15px 0px 0px #ff94b1;
+        }
+
+        /* Typing animation for the message */
+        #typing-text {
+            white-space: pre-wrap;
+            overflow: hidden;
+            border-right: .15em solid #ff4d6d;
+            animation: typing 4s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #ff4d6d; }
+        }
+
+        /* Retro-style button with a similar shadow effect */
+        .retro-button {
+            background-color: #ff4d6d;
+            box-shadow: 5px 5px 0px 0px #ff94b1;
+            transition: all 0.3s ease-in-out;
+        }
+        .retro-button:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px 0px #ff94b1;
+        }
+
+        /* Styling for the custom message modal */
+        .modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: #ffe6f0;
+            border: 5px solid #ff94b1;
+            box-shadow: 10px 10px 0px 0px #ff94b1;
+        }
+    </style>
+</head>
+<body class="bg-pink-300 flex items-center justify-center p-4">
+
+    <!-- Main card container for the apology message -->
+    <div class="max-w-xl w-full p-8 rounded-2xl shadow-xl retro-card text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-pink-700 mb-6 tracking-wide">
+            A Genuinely Sincere Apology
+        </h1>
+        <p class="text-gray-600 mb-8 text-lg md:text-xl">For my dear friend Anushka.</p>
+
+        <!-- Container for the typing text animation -->
+        <div id="message-container" class="relative bg-white bg-opacity-50 p-6 md:p-8 rounded-xl shadow-inner mb-8 overflow-hidden">
+            <p id="typing-text" class="text-gray-800 text-base md:text-lg text-left leading-relaxed">
+            </p>
+        </div>
+
+        <!-- The "I Forgive You" button -->
+        <button id="forgive-btn" class="retro-button text-white font-bold py-3 px-8 rounded-full text-lg md:text-xl transform hover:scale-105 transition-transform duration-300">
+            I Forgive You
+        </button>
+
+    </div>
+
+    <!-- The custom modal that appears when the button is clicked -->
+    <div id="forgiveness-modal" class="modal-container hidden">
+        <div class="modal-content p-8 rounded-2xl text-center">
+            <h2 class="text-2xl font-bold text-pink-700 mb-4">A Message from the Creator</h2>
+            <p class="text-gray-700 text-lg mb-6">
+                Thank you for being so understanding! You're a true friend.
+            </p>
+            <button id="close-modal" class="retro-button text-white font-bold py-2 px-6 rounded-full text-base">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // The apology message text from the user, stored in a variable
+        const messageText = "Hey Anushka, I know you already know what happened, but I wanted to say sorry again. I was so out of it and not texting you was careless. Hope this little website makes you smile. I'm really lucky to have a friend like you. Love you, and I promise to make it up to you soon.";
+
+        const typingElement = document.getElementById('typing-text');
+        const modal = document.getElementById('forgiveness-modal');
+        const forgiveBtn = document.getElementById('forgive-btn');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        // Function to simulate a typewriter effect
+        function typeWriter(text, i, fnCallback) {
+            if (i < text.length) {
+                typingElement.innerHTML = text.substring(0, i + 1);
+                setTimeout(function() {
+                    typeWriter(text, i + 1, fnCallback);
+                }, 50); // Speed of the typing animation
+            } else if (typeof fnCallback === 'function') {
+                fnCallback();
+            }
+        }
+
+        // Start the typing animation once the page is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeInTime = 2000;
+            setTimeout(() => {
+                typeWriter(messageText, 0, function() {
+                    // Optional: Code to run after the typing animation is complete
+                });
+            }, fadeInTime);
+        });
+
+        // Event listener to show the modal when the "I Forgive You" button is clicked
+        forgiveBtn.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+
+        // Event listener to close the modal
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // Close modal if the user clicks on the background
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+
+    </script>
+</body>
+</html>
+
