@@ -102,21 +102,39 @@
             </p>
         </div>
 
-        <!-- The "I Forgive You" button -->
-        <button id="forgive-btn" class="retro-button text-white font-bold py-3 px-8 rounded-full text-lg md:text-xl transform hover:scale-105 transition-transform duration-300">
-            I Forgive You
-        </button>
+        <!-- The buttons for the user to choose from -->
+        <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+            <button id="forgive-btn" class="retro-button text-white font-bold py-3 px-8 rounded-full text-lg md:text-xl transform hover:scale-105 transition-transform duration-300">
+                I Forgive You
+            </button>
+            <button id="dont-forgive-btn" class="retro-button text-white font-bold py-3 px-8 rounded-full text-lg md:text-xl transform hover:scale-105 transition-transform duration-300">
+                I Don't Forgive You
+            </button>
+        </div>
 
     </div>
 
-    <!-- The custom modal that appears when the button is clicked -->
+    <!-- The custom modal that appears when the "Forgive" button is clicked -->
     <div id="forgiveness-modal" class="modal-container hidden">
         <div class="modal-content p-8 rounded-2xl text-center">
             <h2 class="text-2xl font-bold text-pink-700 mb-4">A Message from the Creator</h2>
             <p class="text-gray-700 text-lg mb-6">
                 Thank you for being so understanding! You're a true friend.
             </p>
-            <button id="close-modal" class="retro-button text-white font-bold py-2 px-6 rounded-full text-base">
+            <button id="close-forgive-modal" class="retro-button text-white font-bold py-2 px-6 rounded-full text-base">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- The custom modal that appears when the "Don't Forgive" button is clicked -->
+    <div id="overwhelm-modal" class="modal-container hidden">
+        <div class="modal-content p-8 rounded-2xl text-center">
+            <h2 class="text-2xl font-bold text-pink-700 mb-4">You've chosen wisely.</h2>
+            <p class="text-gray-700 text-lg mb-6">
+                Oh no! My apology wasn't enough. I will now embark on a grand quest to prove my friendship. I will conquer mountains, swim across oceans, and write a thousand more apologies until my sincerity is undeniable. My mission begins now. Prepare for a lifetime of over-the-top acts of friendship and unwavering devotion. There is no escape. I will earn your forgiveness!
+            </p>
+            <button id="close-overwhelm-modal" class="retro-button text-white font-bold py-2 px-6 rounded-full text-base">
                 Close
             </button>
         </div>
@@ -127,9 +145,12 @@
         const messageText = "Hey Anushka, I know you already know what happened, but I wanted to say sorry again. I was so out of it and not texting you was careless. Hope this little website makes you smile. I'm really lucky to have a friend like you. Love you, and I promise to make it up to you soon.";
 
         const typingElement = document.getElementById('typing-text');
-        const modal = document.getElementById('forgiveness-modal');
+        const forgiveModal = document.getElementById('forgiveness-modal');
+        const overwhelmModal = document.getElementById('overwhelm-modal');
         const forgiveBtn = document.getElementById('forgive-btn');
-        const closeModalBtn = document.getElementById('close-modal');
+        const dontForgiveBtn = document.getElementById('dont-forgive-btn');
+        const closeForgiveModalBtn = document.getElementById('close-forgive-modal');
+        const closeOverwhelmModalBtn = document.getElementById('close-overwhelm-modal');
 
         // Function to simulate a typewriter effect
         function typeWriter(text, i, fnCallback) {
@@ -153,20 +174,32 @@
             }, fadeInTime);
         });
 
-        // Event listener to show the modal when the "I Forgive You" button is clicked
+        // Event listener to show the forgiveness modal
         forgiveBtn.addEventListener('click', () => {
-            modal.classList.remove('hidden');
+            forgiveModal.classList.remove('hidden');
         });
 
-        // Event listener to close the modal
-        closeModalBtn.addEventListener('click', () => {
-            modal.classList.add('hidden');
+        // Event listener to show the overwhelming modal
+        dontForgiveBtn.addEventListener('click', () => {
+            overwhelmModal.classList.remove('hidden');
+        });
+
+        // Event listener to close the forgiveness modal
+        closeForgiveModalBtn.addEventListener('click', () => {
+            forgiveModal.classList.add('hidden');
+        });
+
+        // Event listener to close the overwhelming modal
+        closeOverwhelmModalBtn.addEventListener('click', () => {
+            overwhelmModal.classList.add('hidden');
         });
 
         // Close modal if the user clicks on the background
         window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.classList.add('hidden');
+            if (event.target === forgiveModal) {
+                forgiveModal.classList.add('hidden');
+            } else if (event.target === overwhelmModal) {
+                overwhelmModal.classList.add('hidden');
             }
         });
 
